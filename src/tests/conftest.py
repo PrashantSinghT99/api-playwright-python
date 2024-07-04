@@ -33,7 +33,7 @@
 #         # Step 4: Send a POST request to obtain the access token
 #         response = api_request_context.get(
 #             "/login/oauth/access_token", params=params)
-        
+
 #         assert response.status == 200, f"Failed to get access token: {response.status}"
 #         # Extract the access token from the response
 #         response_text = response.text()
@@ -49,7 +49,7 @@
 #         else:
 #             print("Access token not found")
 #             raise ValueError("Access token not found in the response")
-     
+
 #         # Update the API request context with the obtained access token
 #         # api_request_context.set_extra_http_headers({"Authorization": f"Bearer {access_token}"})
 
@@ -57,7 +57,6 @@
 
 #         # Cleanup: Dispose of the API request context after the session ends
 #         auth_context.dispose()
-
 
 
 # DUMMY APIS TESTING
@@ -68,18 +67,22 @@ import os
 load_dotenv()
 
 
-BASE_URL=os.getenv("BASE_URL")
-assert BASE_URL,"BASE_URL not set"
+BASE_URL = os.getenv("BASE_URL")
+assert BASE_URL, "BASE_URL not set"
 
 
 @pytest.fixture(scope="session")
-def set_api_context(playwright:Playwright):
-    
-    api_context=playwright.request.new_context(
+def set_api_context(playwright: Playwright):
+
+    api_context = playwright.request.new_context(
         base_url=BASE_URL
     )
-    
+
     yield api_context
-    
+
     api_context.dispose()
 
+
+@pytest.fixture(scope="session")
+def shared_data():
+    return {}
